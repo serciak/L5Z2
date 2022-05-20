@@ -1,6 +1,6 @@
 package com.company;
 
-public class Student {
+public class Student implements Comparable<Student> {
 
     private int id;
     private String name;
@@ -12,6 +12,10 @@ public class Student {
         this.name = name;
         this.lastname = lastname;
         this.grade = grade;
+    }
+
+    public String toString() {
+        return id + "\t" + lastname + "\t" + name + "\t" + grade;
     }
 
     public int getId() {
@@ -28,5 +32,14 @@ public class Student {
 
     public double getGrade() {
         return grade;
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        CompoundComparator<Student> compoundComparator = new CompoundComparator<>();
+        compoundComparator.addComparator(new IdComparator());
+        compoundComparator.addComparator(new LastnameComparator());
+        compoundComparator.addComparator(new NameComparator());
+        return compoundComparator.compare(this, o);
     }
 }
